@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prices</title>
+</head>
+<body>
+    <h1>Current Stock Price for JRDE</h1>
+    <p id="current-price">Price: $0.00</p>
+    <script>
+        const priceElement = document.getElementById('current-price');
+        const socket = new WebSocket('ws://localhost:3001');
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            priceElement.textContent = `Price: $${data.price.toFixed(2)}`;
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+    </script>
+</body>
+</html>
